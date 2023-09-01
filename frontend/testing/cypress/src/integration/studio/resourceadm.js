@@ -3,7 +3,7 @@
 
 import * as texts from '@altinn-studio/language/src/nb.json';
 
-// First Cypress tests of sub-repo Resourceadm: this is a work in progress
+// Cypress tests of sub-repo Resourceadm: this is a work in progress
 
 context('Resourceadm', () => {
   before(() => {
@@ -40,5 +40,24 @@ context('Resourceadm', () => {
     cy.url().should('include', '/resourceadm/all');
     cy.visit('/resourceadm/ttd/');
     cy.url().should('include', '/ttd/ttd-resources');
+  });
+
+  it('is possible to create a new Resource', () => {
+    cy.get('button').contains(texts['resourceadm.dashboard_create_resource']).click();
+    cy.findByRole('heading', {
+      name: texts['resourceadm.dashboard_create_resource'],
+    });
+
+    cy.get('#resourceNameInputId').type('cy-ny-ressurs3');
+    cy.get('button').contains(texts['resourceadm.dashboard_create_modal_create_button']).click();
+  });
+
+  it('is possible to visit Resource page via table edit button', () => {
+    cy.findByRole('table').contains(texts['resourceadm.dashboard_table_row_edit']).click();
+  });
+
+  it('is possible to return from Resource page via left nav button', () => {
+    cy.findByRole('table').contains(texts['resourceadm.dashboard_table_row_edit']).click();
+    cy.get('button').contains(texts['resourceadm.left_nav_bar_back']).click();
   });
 });
