@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './NavigationModal.module.css';
 import { Button, Paragraph } from '@digdir/design-system-react';
 import { Modal } from '../Modal';
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 
 export type NavigationModalProps = {
   /**
@@ -46,16 +46,19 @@ export const NavigationModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <Paragraph size='small'>
-        {t('resourceadm.resource_navigation_modal_text')}
-      </Paragraph>
+      <Paragraph size='small'>{t('resourceadm.resource_navigation_modal_text')}</Paragraph>
       <div className={classes.buttonWrapper}>
         <div className={classes.closeButton}>
           <Button onClick={onClose} color='primary' variant='quiet' size='small'>
             {t('resourceadm.resource_navigation_modal_button_stay')}
           </Button>
         </div>
-        <Button onClick={onNavigate} color='primary' size='small'>
+        <Button
+          onClick={onNavigate}
+          color='primary'
+          size='small'
+          data-cy='navigation_modal_GoOnButton_tag'
+        >
           {t('resourceadm.resource_navigation_modal_button_move_on')}
         </Button>
       </div>
