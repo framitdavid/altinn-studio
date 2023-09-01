@@ -62,7 +62,6 @@ context('Resourceadm', () => {
   });
 
   it('is possible to visit Resource page and add a policy', () => {
-    cy.switchSelectedContext('oneSingleRepoOrg');
     cy.findByRole('table').contains(texts['resourceadm.dashboard_table_row_edit']).click();
     cy.get('button').contains(texts['resourceadm.left_nav_bar_policy']).click();
     cy.findByRole('heading', {
