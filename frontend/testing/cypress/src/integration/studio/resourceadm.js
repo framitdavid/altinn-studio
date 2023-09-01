@@ -75,5 +75,6 @@ context('Resourceadm', () => {
     });
     cy.get('button').contains(texts['policy_editor.card_button_text']).click();
     cy.get('button').contains(texts['resourceadm.left_nav_bar_back']).click();
+    cy.findByRole('table').contains(texts['resourceadm.dashboard_table_row_has_policy']);
   });
 });
