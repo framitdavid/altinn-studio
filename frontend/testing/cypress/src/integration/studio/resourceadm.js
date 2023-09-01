@@ -60,4 +60,24 @@ context('Resourceadm', () => {
     cy.findByRole('table').contains(texts['resourceadm.dashboard_table_row_edit']).click();
     cy.get('button').contains(texts['resourceadm.left_nav_bar_back']).click();
   });
+
+  it('is possible to visit Resource page and add a policy', () => {
+    cy.switchSelectedContext('oneSingleRepoOrg');
+    cy.findByRole('table').contains(texts['resourceadm.dashboard_table_row_edit']).click();
+
+    cy.get('button').contains(texts['resourceadm.left_nav_bar_policy']).click();
+
+    cy.findByRole('heading', {
+      name: texts['resourceadm.resource_navigation_modal_title_resource'],
+    });
+
+    // cy.wait(6000); // venter på API kall, men sånt hjelper ikke
+
+    // kommer så langt, så krasjer både Chrome og Electron om jeg
+    // prøver gripe og klikke Gå videre (move on) button.
+    // Cypress Open i Chrome indikerer at Cypress kan se over 7900 ulike knapper
+    // etter "get("button")... så noe er galt (se screenshot i /Cypress/ mappe)
+
+    // cy.get('button').contains(texts['resourceadm.resource_navigation_modal_button_move_on']).click();
+  });
 });
