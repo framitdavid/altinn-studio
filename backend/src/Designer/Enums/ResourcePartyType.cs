@@ -4,19 +4,22 @@ namespace Altinn.Studio.Designer.Enums
 {
     public enum ResourcePartyType
     {
+        [EnumMember(Value = "Default")]
+        Default = 0,
+
         [EnumMember(Value = "PrivatePerson")]
-        PrivatePerson = 0,
+        PrivatePerson = 1,
 
         [EnumMember(Value = "LegalEntityEnterprise")]
-        LegalEntityEnterprise = 1,
+        LegalEntityEnterprise = 2,
 
         [EnumMember(Value = "Company")]
-        Company = 2,
+        Company = 3,
 
         [EnumMember(Value = "BankruptcyEstate")]
-        BankruptcyEstate = 3,
+        BankruptcyEstate = 4,
 
         [EnumMember(Value = "SelfRegisteredUser")]
-        SelfRegisteredUser = 4
+        SelfRegisteredUser = 5
     }
 }
