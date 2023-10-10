@@ -28,6 +28,7 @@ export function App() {
   const t = useText();
   const { org, app } = useStudioUrlParams();
   const selectedLayout = useSelector(selectedLayoutNameSelector);
+
   const [
     selectedLayoutSetInPreview,
     setSelectedLayoutSetInPreview,
@@ -35,6 +36,7 @@ export function App() {
   ] = useLocalStorage('layoutSet/' + app, null);
   const selectedLayoutSet = useSelector(selectedLayoutSetSelector);
   const { data: layoutSets, isSuccess: areLayoutSetsFetched } = useLayoutSetsQuery(org, app);
+  console.log('layoutSets toppen', layoutSets);
   const { isSuccess: areWidgetsFetched, isError: widgetFetchedError } = useWidgetsQuery(org, app);
   const { isSuccess: isDatamodelFetched, isError: dataModelFetchedError } =
     useDatamodelMetadataQuery(org, app);
@@ -55,7 +57,12 @@ export function App() {
     removeSelectedLayoutSetInPreview,
   ]);
 
-  const componentIsReady = areWidgetsFetched && isDatamodelFetched && areTextResourcesFetched;
+  const componentIsReady =
+    areWidgetsFetched &&
+    isDatamodelFetched &&
+    areTextResourcesFetched &&
+    areLayoutSetsFetched &&
+    selectedLayoutSet;
 
   const componentHasError = dataModelFetchedError || widgetFetchedError;
 
@@ -79,7 +86,11 @@ export function App() {
   };
 
   useEffect(() => {
+    console.log('layoutSets 1', layoutSets);
+    console.log('selectedLayoutSet', selectedLayoutSet);
+
     if (selectedLayoutSet === null && layoutSets) {
+      console.log('layoutSets 2', layoutSets);
       // Only set layout set if layout sets exists and there is no layout set selected yet
       dispatch(FormLayoutActions.updateSelectedLayoutSet(layoutSets.sets[0].id));
       typedLocalStorage.setItem<string>('layoutSet/' + app, layoutSets.sets[0].id);

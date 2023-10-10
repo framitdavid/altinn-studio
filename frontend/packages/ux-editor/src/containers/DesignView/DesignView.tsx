@@ -109,7 +109,7 @@ export const DesignView = (): ReactNode => {
    */
   const handleAddPage = (isReceipt: boolean) => {
     if (isReceipt) {
-      addLayoutMutation.mutate({ layoutName: 'Kvittering', isReceiptPage: true });
+      addLayoutMutation.mutate({ layoutName: 'Kvittering', isReceiptPage: true, layouts });
       setSearchParams((prevParams) => ({ ...prevParams, layout: 'Kvittering' }));
       setOpenAccordion('Kvittering');
     } else {
@@ -121,7 +121,7 @@ export const DesignView = (): ReactNode => {
         newLayoutName = `${t('ux_editor.page')}${newNum}`;
       }
 
-      addLayoutMutation.mutate({ layoutName: newLayoutName, isReceiptPage: false });
+      addLayoutMutation.mutate({ layoutName: newLayoutName, isReceiptPage: false, layouts });
       setSearchParams((prevParams) => ({ ...prevParams, layout: newLayoutName }));
       setSelectedLayoutInLocalStorage(instanceId, newLayoutName);
       dispatch(FormLayoutActions.updateSelectedLayout(newLayoutName));

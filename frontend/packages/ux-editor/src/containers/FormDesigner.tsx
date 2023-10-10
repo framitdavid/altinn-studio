@@ -103,19 +103,38 @@ export const FormDesigner = ({
     }
   }, [dispatch, formLayoutSettings?.receiptLayoutName, instanceId, layoutPagesOrder, searchParams]);
 
+  const layoutsWithContentExist = useMemo(
+    () => layoutOrder && Object.keys(layoutOrder).length > 0,
+    [layoutOrder],
+  );
+
   useEffect((): void => {
+    const layoutName = `${t('general.page')}1`;
+
     const addInitialPage = (): void => {
-      const layoutName = `${t('general.page')}1`;
-      addLayoutMutation.mutate({ layoutName, isReceiptPage: false });
+      console.log('in add');
+      addLayoutMutation.mutate({
+        layoutName,
+        isReceiptPage: false,
+        layouts: formLayouts,
+        // layoutSettings: formLayoutSettings,
+      });
     };
 
-    const layoutsWithContentExist = layoutOrder && !Object.keys(layoutOrder).length;
     // Old apps might have selectedLayout='default' even when there exist a single layout.
     // Should only add initial page if no layouts exist.
-    if (selectedLayout === DEFAULT_SELECTED_LAYOUT_NAME && !layoutsWithContentExist) {
+
+    if (
+      formLayouts &&
+      // formLayoutSettings &&
+      selectedLayout === DEFAULT_SELECTED_LAYOUT_NAME &&
+      !layoutsWithContentExist &&
+      !Object.keys(formLayouts).includes(layoutName)
+    ) {
+      console.log('formLayouts', formLayouts);
       addInitialPage();
     }
-  }, [app, dispatch, org, selectedLayout, t, layoutOrder, addLayoutMutation]);
+  }, [addLayoutMutation, formLayouts, layoutsWithContentExist, selectedLayout, t]);
 
   if (layoutFetchedError) {
     const mappedError = mapErrorToDisplayError();

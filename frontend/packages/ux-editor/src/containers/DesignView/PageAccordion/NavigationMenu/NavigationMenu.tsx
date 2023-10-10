@@ -23,6 +23,7 @@ import { useSearchParams } from 'react-router-dom';
 import { firstAvailableLayout } from '../../../../utils/formLayoutsUtils';
 import { InputPopover } from './InputPopover';
 import { deepCopy } from 'app-shared/pure';
+import { useFormLayoutsQuery } from '../../../../hooks/queries/useFormLayoutsQuery';
 
 export type NavigationMenuProps = {
   /**
@@ -52,6 +53,7 @@ export const NavigationMenu = ({ pageName, pageIsReceipt }: NavigationMenuProps)
   const invalid = invalidLayouts.includes(pageName);
 
   const { data: formLayoutSettings } = useFormLayoutSettingsQuery(org, app, selectedLayoutSet);
+  const { data: formLayouts } = useFormLayoutsQuery(org, app, selectedLayoutSet);
 
   const layoutOrder = formLayoutSettings?.pages.order;
   const disableUp = layoutOrder.indexOf(pageName) === 0;
@@ -87,7 +89,7 @@ export const NavigationMenu = ({ pageName, pageIsReceipt }: NavigationMenuProps)
   };
 
   const handleConfirmDelete = () => {
-    deleteLayout(pageName);
+    deleteLayout({ layoutName: pageName, formLayouts });
 
     if (selectedLayout === pageName) {
       const layoutToSelect = firstAvailableLayout(pageName, layoutOrder);

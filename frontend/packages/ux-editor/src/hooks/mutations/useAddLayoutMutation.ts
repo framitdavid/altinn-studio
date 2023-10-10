@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormLayoutActions } from '../../features/formDesigner/formLayout/formLayoutSlice';
 import { deepCopy } from 'app-shared/pure';
 import { convertInternalToLayoutFormat, createEmptyLayout } from '../../utils/formLayoutUtils';
-import { IInternalLayout } from '../../types/global';
+import { IFormLayouts, IInternalLayout } from '../../types/global';
 import { ExternalFormLayout } from 'app-shared/types/api/FormLayoutsResponse';
 import { useServicesContext } from 'app-shared/contexts/ServicesContext';
 import { QueryKey } from 'app-shared/types/QueryKey';
@@ -16,11 +16,13 @@ import { addOrRemoveNavigationButtons } from '../../utils/formLayoutsUtils';
 export interface AddLayoutMutationArgs {
   layoutName: string;
   isReceiptPage?: boolean;
+  layouts: IFormLayouts;
+  //  layoutSettings: ILayoutSettings;
 }
 
 export const useAddLayoutMutation = (org: string, app: string, layoutSetName: string) => {
   const { saveFormLayout } = useServicesContext();
-  const formLayoutsQuery = useFormLayoutsQuery(org, app, layoutSetName);
+  // const formLayoutsQuery = useFormLayoutsQuery(org, app, layoutSetName);
   const formLayoutSettingsQuery = useFormLayoutSettingsQuery(org, app, layoutSetName);
   const formLayoutSettingsMutation = useFormLayoutSettingsMutation(org, app, layoutSetName);
   const dispatch = useDispatch();
@@ -32,9 +34,15 @@ export const useAddLayoutMutation = (org: string, app: string, layoutSetName: st
   };
 
   return useMutation({
-    mutationFn: async ({ layoutName, isReceiptPage }: AddLayoutMutationArgs) => {
+    mutationFn: async ({
+      layoutName,
+      isReceiptPage,
+      layouts, // layoutSettings,
+    }: AddLayoutMutationArgs) => {
       const layoutSettings: ILayoutSettings = formLayoutSettingsQuery.data;
-      const layouts = formLayoutsQuery.data;
+      // const layouts = formLayoutsQuery.data;
+
+      // console.log('formLayoutsQuery', formLayoutsQuery);
 
       if (Object.keys(layouts).indexOf(layoutName) !== -1) throw Error('Layout already exists');
       let newLayouts = deepCopy(layouts);

@@ -3,7 +3,7 @@ import { useServicesContext } from 'app-shared/contexts/ServicesContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormLayoutActions } from '../../features/formDesigner/formLayout/formLayoutSlice';
 import { QueryKey } from 'app-shared/types/QueryKey';
-import { IInternalLayout } from '../../types/global';
+import { IFormLayouts, IInternalLayout } from '../../types/global';
 import { deepCopy } from 'app-shared/pure';
 import { useFormLayoutSettingsQuery } from '../queries/useFormLayoutSettingsQuery';
 import { ILayoutSettings } from 'app-shared/types/global';
@@ -16,10 +16,14 @@ import { useAddLayoutMutation } from './useAddLayoutMutation';
 import { useText } from '../useText';
 import { selectedLayoutNameSelector } from '../../selectors/formLayoutSelectors';
 
+interface Args {
+  layoutName: string;
+  formLayouts: IFormLayouts;
+}
 export const useDeleteLayoutMutation = (org: string, app: string, layoutSetName: string) => {
   const { deleteFormLayout, saveFormLayout } = useServicesContext();
 
-  const { data: formLayouts } = useFormLayoutsQuery(org, app, layoutSetName);
+  // const { data: formLayouts } = useFormLayoutsQuery(org, app, layoutSetName);
   const { data: formLayoutSettings } = useFormLayoutSettingsQuery(org, app, layoutSetName);
 
   const formLayoutSettingsMutation = useFormLayoutSettingsMutation(org, app, layoutSetName);
@@ -35,7 +39,7 @@ export const useDeleteLayoutMutation = (org: string, app: string, layoutSetName:
   };
 
   return useMutation({
-    mutationFn: async (layoutName: string) => {
+    mutationFn: async ({ layoutName, formLayouts }: Args) => {
       let layouts = deepCopy(formLayouts);
       delete layouts[layoutName];
       layouts = await addOrRemoveNavigationButtons(
@@ -65,7 +69,7 @@ export const useDeleteLayoutMutation = (org: string, app: string, layoutSetName:
       // Make sure to create a new page when the last one is deleted!
       if (!selectedLayout && layoutPagesOrder.length === 0) {
         const layoutName = t('general.page') + (layoutPagesOrder.length + 1);
-        addLayoutMutation.mutate({ layoutName, isReceiptPage: false });
+        addLayoutMutation.mutate({ layoutName, isReceiptPage: false, layouts });
       }
 
       queryClient.setQueryData([QueryKey.FormLayouts, org, app, layoutSetName], () => layouts);
