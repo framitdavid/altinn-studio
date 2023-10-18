@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { EditComponentId } from './editModal/EditComponentId';
 import { Accordion, Alert, Heading, Paragraph } from '@digdir/design-system-react';
 import type { FormComponent } from '../../types/FormComponent';
@@ -33,6 +33,11 @@ export const FormComponentConfig = ({
 }: FormComponentConfigProps) => {
   const selectedLayout = useSelector(selectedLayoutNameSelector);
   const t = useText();
+  const [currentEditFormId, setCurrentEditFormId] = useState(editFormId);
+
+  useEffect(() => {
+    setCurrentEditFormId(editFormId);
+  }, [editFormId]);
 
   if (!schema?.properties) return null;
 
@@ -52,7 +57,10 @@ export const FormComponentConfig = ({
   } = schema.properties;
 
   // children property is not supported in component config - it should be part of container config.
-  const unsupportedPropertyKeys: string[] = getUnsupportedPropertyTypes(rest, children ? ['children'] : undefined);
+  const unsupportedPropertyKeys: string[] = getUnsupportedPropertyTypes(
+    rest,
+    children ? ['children'] : undefined,
+  );
   return (
     <>
       {id && (
@@ -84,10 +92,10 @@ export const FormComponentConfig = ({
           {Object.keys(dataModelBindings?.properties).map((propertyKey: any) => {
             return (
               <EditDataModelBindings
-                key={`${component.id}-datamodel-${propertyKey}`}
+                key={`${component.id}-datamodel-${propertyKey}-${currentEditFormId}`}
                 component={component}
                 handleComponentChange={handleComponentUpdate}
-                editFormId={editFormId}
+                editFormId={currentEditFormId}
                 helpText={dataModelBindings?.properties[propertyKey]?.description}
                 renderOptions={{
                   key: propertyKey,
@@ -98,9 +106,11 @@ export const FormComponentConfig = ({
           })}
         </>
       )}
-      {!hideUnsupported && <Heading level={3} size='xxsmall'>
-            {'Andre innstillinger'}
-          </Heading>}
+      {!hideUnsupported && (
+        <Heading level={3} size='xxsmall'>
+          {'Andre innstillinger'}
+        </Heading>
+      )}
       {options && optionsId && (
         <EditOptions
           component={component as any}
@@ -214,19 +224,19 @@ export const FormComponentConfig = ({
                   {rest[propertyKey]?.description && (
                     <Paragraph size='small'>{rest[propertyKey].description}</Paragraph>
                   )}
-                <FormComponentConfig
-                key={propertyKey}
-                schema={rest[propertyKey]}
-                component={component[propertyKey] || {}}
-                handleComponentUpdate={(updatedComponent: FormComponent) => {
-                  handleComponentUpdate({
-                    ...component,
-                    [propertyKey]: updatedComponent,
-                  });
-                }}
-                editFormId={editFormId}
-                hideUnsupported
-              />
+                  <FormComponentConfig
+                    key={propertyKey}
+                    schema={rest[propertyKey]}
+                    component={component[propertyKey] || {}}
+                    handleComponentUpdate={(updatedComponent: FormComponent) => {
+                      handleComponentUpdate({
+                        ...component,
+                        [propertyKey]: updatedComponent,
+                      });
+                    }}
+                    editFormId={editFormId}
+                    hideUnsupported
+                  />
                 </Accordion.Content>
               </Accordion.Item>
             </Accordion>
