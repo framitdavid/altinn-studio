@@ -5445,6 +5445,7 @@ __metadata:
     "@digdir/design-system-tokens": 0.8.0
     "@emotion/react": 11.11.1
     "@emotion/styled": 11.11.0
+    "@floating-ui/react": 0.25.2
     "@microsoft/applicationinsights-react-js": ^17.0.0
     "@microsoft/applicationinsights-web": ^3.0.2
     "@microsoft/signalr": 7.0.11

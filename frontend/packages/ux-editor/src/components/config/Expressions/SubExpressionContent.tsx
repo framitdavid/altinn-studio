@@ -12,6 +12,7 @@ import classes from './SubExpressionContent.module.css';
 import { DataSourceValue } from './DataSourceValue';
 import { addDataSource, addDataSourceValue } from '../../../utils/expressionsUtils';
 import { useText } from '../../../hooks';
+import { Select as AltinnSelect } from 'app-shared/components/Select';
 
 export interface SubExpressionContentProps {
   expressionPropertyIsSet: boolean;
@@ -28,7 +29,9 @@ export const SubExpressionContent = ({
 }: SubExpressionContentProps) => {
   const t = useText();
 
-  const allowToSpecifyExpression = expressionPropertyIsSet && Object.values(ExpressionFunction).includes(subExpression.function as ExpressionFunction);
+  const allowToSpecifyExpression =
+    expressionPropertyIsSet &&
+    Object.values(ExpressionFunction).includes(subExpression.function as ExpressionFunction);
 
   const addFunctionToSubExpression = (func: string) => {
     if (func === 'default') {
@@ -39,7 +42,7 @@ export const SubExpressionContent = ({
     onUpdateSubExpression(subExpression);
   };
 
-  const addDataSourceToExpression = (dataSource: string, isComparable: boolean ) => {
+  const addDataSourceToExpression = (dataSource: string, isComparable: boolean) => {
     const newSubExpression = addDataSource(subExpression, dataSource, isComparable);
     onUpdateSubExpression(newSubExpression);
   };
@@ -62,7 +65,7 @@ export const SubExpressionContent = ({
           size='small'
         />
       </div>
-      <Select // TODO: Consider only representing the function selection between the data source dropdowns - where it is actually used. Issue: #10858
+      <AltinnSelect // TODO: Consider only representing the function selection between the data source dropdowns - where it is actually used. Issue: #10858
         label={t('right_menu.expressions_function')}
         hideLabel={true}
         onChange={(func: string) => addFunctionToSubExpression(func)}
@@ -70,60 +73,66 @@ export const SubExpressionContent = ({
           Object.values(ExpressionFunction).map((func: string) => ({
             label: expressionFunctionTexts(t)[func],
             value: func,
-          }))
+          })),
         )}
         value={subExpression.function || 'default'}
       />
       {allowToSpecifyExpression && (
         <div className={classes.expression}>
-            <div className={classes.expressionDetails}>
-              <Select
-                label={t('right_menu.expressions_data_source')}
-                hideLabel={true}
-                onChange={(dataSource: string) => addDataSourceToExpression(dataSource, false)}
-                options={[{ label: t('right_menu.expressions_data_source_select'), value: 'default' }].concat(
-                  Object.values(DataSource).map((ds: string) => ({
-                    label: expressionDataSourceTexts(t)[ds],
-                    value: ds,
-                  }))
-                )}
-                value={subExpression.dataSource || 'default'}
-              />
-              {subExpression.dataSource && (
-                <DataSourceValue
-                  subExpression={subExpression}
-                  currentDataSource={subExpression.dataSource as DataSource}
-                  specifyDataSourceValue={(dataSourceValue ) => addDataSourceValueToExpression(dataSourceValue, false)}
-                  isComparableValue={false}
-                />
+          <div className={classes.expressionDetails}>
+            <Select
+              label={t('right_menu.expressions_data_source')}
+              hideLabel={true}
+              onChange={(dataSource: string) => addDataSourceToExpression(dataSource, false)}
+              options={[
+                { label: t('right_menu.expressions_data_source_select'), value: 'default' },
+              ].concat(
+                Object.values(DataSource).map((ds: string) => ({
+                  label: expressionDataSourceTexts(t)[ds],
+                  value: ds,
+                })),
               )}
-              <p className={classes.expressionFunction}>
-                {expressionFunctionTexts(t)[subExpression.function]}
-              </p>
-              <Select
-                label={t('right_menu.expressions_comparable_data_source')}
-                hideLabel={true}
-                onChange={(compDataSource: string) =>
-                  addDataSourceToExpression(compDataSource, true)
+              value={subExpression.dataSource || 'default'}
+            />
+            {subExpression.dataSource && (
+              <DataSourceValue
+                subExpression={subExpression}
+                currentDataSource={subExpression.dataSource as DataSource}
+                specifyDataSourceValue={(dataSourceValue) =>
+                  addDataSourceValueToExpression(dataSourceValue, false)
                 }
-                options={[{ label: t('right_menu.expressions_data_source_select'), value: 'default' }].concat(
-                  Object.values(DataSource).map((cds: string) => ({
-                    label: expressionDataSourceTexts(t)[cds],
-                    value: cds,
-                  }))
-                )}
-                value={subExpression.comparableDataSource || 'default'}
+                isComparableValue={false}
               />
-              {subExpression.comparableDataSource && (
-                <DataSourceValue
-                  subExpression={subExpression}
-                  currentDataSource={subExpression.comparableDataSource as DataSource}
-                  specifyDataSourceValue={(dataSourceValue) => addDataSourceValueToExpression(dataSourceValue, true)}
-                  isComparableValue={true}
-                />
+            )}
+            <p className={classes.expressionFunction}>
+              {expressionFunctionTexts(t)[subExpression.function]}
+            </p>
+            <Select
+              label={t('right_menu.expressions_comparable_data_source')}
+              hideLabel={true}
+              onChange={(compDataSource: string) => addDataSourceToExpression(compDataSource, true)}
+              options={[
+                { label: t('right_menu.expressions_data_source_select'), value: 'default' },
+              ].concat(
+                Object.values(DataSource).map((cds: string) => ({
+                  label: expressionDataSourceTexts(t)[cds],
+                  value: cds,
+                })),
               )}
-            </div>
+              value={subExpression.comparableDataSource || 'default'}
+            />
+            {subExpression.comparableDataSource && (
+              <DataSourceValue
+                subExpression={subExpression}
+                currentDataSource={subExpression.comparableDataSource as DataSource}
+                specifyDataSourceValue={(dataSourceValue) =>
+                  addDataSourceValueToExpression(dataSourceValue, true)
+                }
+                isComparableValue={true}
+              />
+            )}
           </div>
+        </div>
       )}
     </div>
   );

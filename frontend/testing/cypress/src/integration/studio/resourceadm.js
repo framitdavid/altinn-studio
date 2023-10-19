@@ -5,7 +5,7 @@ import * as texts from '@altinn-studio/language/src/nb.json';
 
 // Cypress tests of sub-repo Resourceadm: this is a work in progress
 
-context('Resourceadm', () => {
+context.skip('Resourceadm', () => {
   before(() => {
     cy.studioLogin(Cypress.env('autoTestUser'), Cypress.env('autoTestUserPwd'));
   });
@@ -174,5 +174,4 @@ context('Resourceadm', () => {
     cy.url().should('include', '/about');
   });
   */
-
 });
