@@ -1,16 +1,21 @@
 import React, { ReactNode, forwardRef } from 'react';
 import classes from './StudioModal.module.css';
-import ReactModal from 'react-modal'; // TODO - Replace with component from Designsystemet. Issue:
-import { Button } from '@digdir/design-system-react';
+import { Button, Modal, ModalProps } from '@digdir/design-system-react';
 import { useTranslation } from 'react-i18next';
 import { MultiplyIcon } from '@altinn/icons';
 
+/*export type StudioModalProps = {
+      isOpen: boolean;
+      onClose: () => void;
+      title: ReactNode;
+      children: ReactNode;
+    }*/
+
 export type StudioModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  title: ReactNode;
-  children: ReactNode;
-};
+  header: ReactNode;
+  content: ReactNode;
+  footer?: ReactNode;
+} & Omit<ModalProps, 'header' | 'content' | 'footer'>;
 
 /**
  * @component
@@ -40,11 +45,19 @@ export type StudioModalProps = {
  * @returns {ReactNode} - The rendered component
  */
 export const StudioModal = forwardRef<HTMLDialogElement, StudioModalProps>(
-  ({ isOpen, onClose, title, children, ...rest }: StudioModalProps, ref): ReactNode => {
+  //({ isOpen, onClose, title, children, ...rest }: StudioModalProps, ref): ReactNode => {
+  ({ header, content, footer, ...rest }: StudioModalProps, ref): ReactNode => {
     const { t } = useTranslation();
 
     return (
-      <ReactModal
+      <Modal ref={ref} className={classes.modal} {...rest}>
+        <Modal.Header className={classes.header}>{header}</Modal.Header>
+        <Modal.Content className={classes.content}>{content}</Modal.Content>
+        {footer && <Modal.Footer>{footer}</Modal.Footer>}
+      </Modal>
+    );
+    /*(
+      <Modal
         isOpen={isOpen}
         onRequestClose={onClose}
         className={classes.modal}
@@ -65,8 +78,8 @@ export const StudioModal = forwardRef<HTMLDialogElement, StudioModalProps>(
           </div>
         </div>
         <div className={classes.contentWrapper}>{children}</div>
-      </ReactModal>
-    );
+      </Modal>
+    );*/
   },
 );
 
