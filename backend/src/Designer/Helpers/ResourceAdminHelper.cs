@@ -45,7 +45,7 @@ namespace Altinn.Studio.Designer.Helpers
         public static bool ValidateResourceId(string input)
         {
             // Define the regular expression pattern
-            string pattern = "^[a-zA-Z0-9_-]+$";
+            string pattern = "^[a-z0-9_-]+$";
 
             // Use Regex.IsMatch to check if the input string matches the pattern
             return Regex.IsMatch(input, pattern);
