@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Altinn.Studio.Designer.Models;
 
 namespace Altinn.Studio.Designer.Helpers
@@ -39,6 +40,15 @@ namespace Altinn.Studio.Designer.Helpers
             {
                 return true;
             }
+        }
+
+        public static bool ValidateResourceId(string input)
+        {
+            // Define the regular expression pattern
+            string pattern = "^[a-zA-Z0-9_-]+$";
+
+            // Use Regex.IsMatch to check if the input string matches the pattern
+            return Regex.IsMatch(input, pattern);
         }
 
         public static char[] GetInvalidFileNameChars() => new char[]

@@ -471,6 +471,11 @@ namespace Altinn.Studio.Designer.Services.Implementation
         {
             if (updatedResource != null && id == updatedResource.Identifier)
             {
+                if (!ResourceAdminHelper.ValidateResourceId(updatedResource.Identifier))
+                {
+                    return new StatusCodeResult(400);
+                }
+
                 string repository = string.Format("{0}-resources", org);
                 List<FileSystemObject> resourceFiles = GetResourceFiles(org, repository);
                 string repopath = _settings.GetServicePath(org, repository, AuthenticationHelper.GetDeveloperUserName(_httpContextAccessor.HttpContext));
@@ -500,6 +505,11 @@ namespace Altinn.Studio.Designer.Services.Implementation
         {
             try
             {
+                if (!ResourceAdminHelper.ValidateResourceId(newResource.Identifier))
+                {
+                    return new StatusCodeResult(400);
+                }
+
                 string repository = $"{org}-resources";
                 if (!CheckIfResourceFileAlreadyExists(newResource.Identifier, org, repository))
                 {
