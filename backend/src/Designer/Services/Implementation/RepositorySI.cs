@@ -505,11 +505,6 @@ namespace Altinn.Studio.Designer.Services.Implementation
         {
             try
             {
-                if (!ResourceAdminHelper.ValidateResourceId(newResource.Identifier))
-                {
-                    return new StatusCodeResult(400);
-                }
-
                 string repository = $"{org}-resources";
                 if (!CheckIfResourceFileAlreadyExists(newResource.Identifier, org, repository))
                 {

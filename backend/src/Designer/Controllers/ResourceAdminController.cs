@@ -172,6 +172,12 @@ namespace Altinn.Studio.Designer.Controllers
         public async Task<ActionResult> UpdateResource(string org, string id, [FromBody] ServiceResource resource)
         {
             resource.HasCompetentAuthority = await GetCompetentAuthorityFromOrg(org);
+
+            if (!ResourceAdminHelper.ValidateResourceId(resource.Identifier))
+            {
+                return new StatusCodeResult(400);
+            }
+
             return _repository.UpdateServiceResource(org, id, resource);
         }
 
@@ -180,6 +186,12 @@ namespace Altinn.Studio.Designer.Controllers
         public async Task<ActionResult<ServiceResource>> AddResource(string org, [FromBody] ServiceResource resource)
         {
             resource.HasCompetentAuthority = await GetCompetentAuthorityFromOrg(org);
+
+            if (!ResourceAdminHelper.ValidateResourceId(resource.Identifier))
+            {
+                return new StatusCodeResult(400);
+            }
+
             return _repository.AddServiceResource(org, resource);
         }
 
