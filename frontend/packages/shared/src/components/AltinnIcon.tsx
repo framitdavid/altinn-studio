@@ -11,10 +11,6 @@ export interface IAltinnIconComponentProvidedProps {
   weight?: number;
 }
 
-/**
- *
- * @deprecated - Is replaced @altinn/icons
- */
 export function AltinnIconComponent(props: IAltinnIconComponentProvidedProps) {
   const color = props.isActive ? props.isActiveIconColor : props.iconColor;
   const style = {
@@ -25,7 +21,12 @@ export function AltinnIconComponent(props: IAltinnIconComponentProvidedProps) {
     ...(props.margin && { margin: props.margin }),
     ...(props.padding && { padding: props.padding }),
   };
-  return <i className={props.iconClass} style={Object.keys(style).length ? style : undefined} />;
+  return (
+    <i
+      className={props.iconClass}
+      style={Object.keys(style).length ? style : undefined}
+    />
+  );
 }
 
 export default AltinnIconComponent;
