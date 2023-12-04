@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Ref, useState } from 'react';
 import classes from './ImportResourceModal.module.css';
 import { Modal } from '../Modal';
 import { Button, Select } from '@digdir/design-system-react';
@@ -16,7 +16,7 @@ import { ServerCodes } from 'app-shared/enums/ServerCodes';
 const environmentOptions = ['AT21', 'AT22', 'AT23', 'AT24', 'TT02', 'PROD'];
 
 export type ImportResourceModalProps = {
-  isOpen: boolean;
+  ref: Ref<HTMLDialogElement>;
   onClose: () => void;
 };
 
@@ -29,13 +29,13 @@ export type ImportResourceModalProps = {
  *    When the environment and service is selected, the button to start planning the
  *    importing will be available.
  *
- * @property {boolean}[isOpen] - Boolean for if the modal is open
+ * @property {Ref<HTMLDialogElement>}[ref] - The ref to the modal
  * @property {function}[onClose] - Function to handle close
  *
  * @returns {React.ReactNode} - The rendered component
  */
 export const ImportResourceModal = ({
-  isOpen,
+  ref,
   onClose,
 }: ImportResourceModalProps): React.ReactNode => {
   const { t } = useTranslation();
@@ -86,7 +86,7 @@ export const ImportResourceModal = ({
 
   return (
     <Modal
-      isOpen={isOpen}
+      ref={ref}
       onClose={handleClose}
       title={t('resourceadm.dashboard_import_modal_title')}
       contentClassName={classes.contentWidth}

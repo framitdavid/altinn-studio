@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Ref, useRef } from 'react';
 import classes from './MergeConflictModal.module.css';
 import { useTranslation } from 'react-i18next';
 import { Button, Link, Paragraph, Label } from '@digdir/design-system-react';
@@ -8,22 +8,9 @@ import { get } from 'app-shared/utils/networking';
 import { Modal } from '../Modal';
 
 type MergeConflictModalProps = {
-  /**
-   * Boolean for if the modal is open
-   */
-  isOpen: boolean;
-  /**
-   * Function to be executed when the merge is solved
-   * @returns void
-   */
+  ref: Ref<HTMLDialogElement>;
   handleSolveMerge: () => void;
-  /**
-   * The name of the organisation
-   */
   org: string;
-  /**
-   * The name of the repo
-   */
   repo: string;
 };
 
@@ -31,7 +18,7 @@ type MergeConflictModalProps = {
  * @component
  *    Displays the modal telling the user that there is a merge conflict
  *
- * @property {boolean}[isOpen] - Boolean for if the modal is open
+ * @property {Ref<HTMLDialogElement>}[ref] - The ref to the modal
  * @property {function}[handleSolveMerge] - Function to be executed when the merge is solved
  * @property {string}[org] - The name of the organisation
  * @property {string}[repo] - The name of the repo
@@ -39,25 +26,22 @@ type MergeConflictModalProps = {
  * @returns {React.ReactNode} - The rendered component
  */
 export const MergeConflictModal = ({
-  isOpen,
+  ref,
   handleSolveMerge,
   org,
   repo,
 }: MergeConflictModalProps): React.ReactNode => {
   const { t } = useTranslation();
 
-  const [resetModalOpen, setResetModalOpen] = useState(false);
+  const removeChangesModalRef = useRef<HTMLDialogElement>(null);
 
-  /**
-   * Function that resets the repo
-   */
   const handleClickResetRepo = () => {
     get(repoResetPath(org, repo));
     handleSolveMerge();
   };
 
   return (
-    <Modal isOpen={isOpen} title={t('merge_conflict.headline')}>
+    <Modal ref={ref} title={t('merge_conflict.headline')}>
       <Paragraph size='small'>{t('merge_conflict.body1')}</Paragraph>
       <Paragraph size='small'>{t('merge_conflict.body2')}</Paragraph>
       <div className={classes.buttonWrapper}>
@@ -74,12 +58,12 @@ export const MergeConflictModal = ({
             </Link>
           </div>
         </div>
-        <Button onClick={() => setResetModalOpen(true)} size='small'>
+        <Button onClick={() => removeChangesModalRef.current?.showModal()} size='small'>
           {t('merge_conflict.remove_my_changes')}
         </Button>
         <RemoveChangesModal
-          isOpen={resetModalOpen}
-          onClose={() => setResetModalOpen(false)}
+          ref={removeChangesModalRef}
+          onClose={() => removeChangesModalRef.current?.close()}
           handleClickResetRepo={handleClickResetRepo}
           repo={repo}
         />

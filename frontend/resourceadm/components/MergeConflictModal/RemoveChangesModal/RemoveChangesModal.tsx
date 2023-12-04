@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Ref, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Textfield, Paragraph } from '@digdir/design-system-react';
 import classes from './RemoveChangesModal.module.css';
@@ -7,23 +7,9 @@ import { ScreenReaderSpan } from 'resourceadm/components/ScreenReaderSpan';
 import { Trans } from 'react-i18next';
 
 type RemoveChangesModalProps = {
-  /**
-   * Boolean for if the modal is open
-   */
-  isOpen: boolean;
-  /**
-   * Function to handle close
-   * @returns void
-   */
+  ref: Ref<HTMLDialogElement>;
   onClose: () => void;
-  /**
-   * Function to be executed when the reset repo is clicked
-   * @returns void
-   */
   handleClickResetRepo: () => void;
-  /**
-   * The name of the repo
-   */
   repo: string;
 };
 
@@ -31,7 +17,7 @@ type RemoveChangesModalProps = {
  * @Component
  *    Content to be displayed inside the modal where the user removes their changes in a merge conflict
  *
- * @property {boolean}[isOpen] - Boolean for if the modal is open
+ * @property {Ref<HTMLDialogElement>}[ref] - The ref to the modal
  * @property {function}[onClose] - Function to handle close
  * @property {function}[handleClickResetRepo] - Function to be executed when the reset repo is clicked
  * @property {string}[repo] - The name of the repo
@@ -39,7 +25,7 @@ type RemoveChangesModalProps = {
  * @returns {React.ReactNode} - The rendered component
  */
 export const RemoveChangesModal = ({
-  isOpen,
+  ref,
   onClose,
   handleClickResetRepo,
   repo,
@@ -48,24 +34,18 @@ export const RemoveChangesModal = ({
 
   const [deleteRepoName, setDeleteRepoName] = useState('');
 
-  /**
-   * Handles the closing of the modal
-   */
   const handleClose = () => {
     setDeleteRepoName('');
     onClose();
   };
 
-  /**
-   * Handles the deletion of the changes
-   */
   const handleDelete = () => {
     handleClose();
     handleClickResetRepo();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('administration.reset_repo_confirm_heading')}>
+    <Modal ref={ref} onClose={onClose} title={t('administration.reset_repo_confirm_heading')}>
       <Paragraph size='small'>
         <Trans
           i18nKey={'administration.reset_repo_confirm_info'}

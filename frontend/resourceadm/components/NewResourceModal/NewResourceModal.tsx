@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Ref, useState } from 'react';
 import classes from './NewResourceModal.module.css';
 import { Button } from '@digdir/design-system-react';
 import { Modal } from '../Modal';
@@ -12,7 +12,7 @@ import { replaceWhiteSpaceWithHyphens } from 'resourceadm/utils/stringUtils';
 import { ServerCodes } from 'app-shared/enums/ServerCodes';
 
 export type NewResourceModalProps = {
-  isOpen: boolean;
+  ref: Ref<HTMLDialogElement>;
   onClose: () => void;
 };
 
@@ -20,12 +20,12 @@ export type NewResourceModalProps = {
  * @component
  *    Displays the modal telling the user that there is a merge conflict
  *
- * @property {boolean}[isOpen] - Boolean for if the modal is open
+ * @property {Ref<HTMLDialogElement>}[ref] - The ref to the modal
  * @property {function}[onClose] - Function to handle close
  *
  * @returns {React.ReactNode} - The rendered component
  */
-export const NewResourceModal = ({ isOpen, onClose }: NewResourceModalProps): React.ReactNode => {
+export const NewResourceModal = ({ ref, onClose }: NewResourceModalProps): React.ReactNode => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -123,7 +123,7 @@ export const NewResourceModal = ({ isOpen, onClose }: NewResourceModalProps): Re
 
   return (
     <Modal
-      isOpen={isOpen}
+      ref={ref}
       onClose={handleClose}
       title={t('resourceadm.dashboard_create_modal_title')}
       contentClassName={classes.contentWidth}

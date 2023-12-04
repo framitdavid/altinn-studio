@@ -1,27 +1,13 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import classes from './NavigationModal.module.css';
 import { Button, Paragraph } from '@digdir/design-system-react';
 import { Modal } from '../Modal';
 import { useTranslation } from 'react-i18next';
 
 export type NavigationModalProps = {
-  /**
-   * Boolean for if the modal is open
-   */
-  isOpen: boolean;
-  /**
-   * Function to handle close
-   * @returns void
-   */
+  ref: Ref<HTMLDialogElement>;
   onClose: () => void;
-  /**
-   * Function to be executed when navigating
-   * @returns void
-   */
   onNavigate: () => void;
-  /**
-   * The title in the modal
-   */
   title: string;
 };
 
@@ -29,7 +15,7 @@ export type NavigationModalProps = {
  * @component
  *    Displays the modal telling the user that there is a merge conflict
  *
- * @property {boolean}[isOpen] - Boolean for if the modal is open
+ * @property {Ref<HTMLDialogElement>}[ref] - The ref to the modal
  * @property {function}[onClose] - Function to handle close
  * @property {function}[onNavigate] - Function to be executed when navigating
  * @property {string}[title] - The title in the modal
@@ -37,7 +23,7 @@ export type NavigationModalProps = {
  * @returns {React.ReactNode} - The rendered component
  */
 export const NavigationModal = ({
-  isOpen,
+  ref,
   onClose,
   onNavigate,
   title,
@@ -45,7 +31,7 @@ export const NavigationModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title}>
+    <Modal ref={ref} onClose={onClose} title={title}>
       <Paragraph size='small' className={classes.text}>
         {t('resourceadm.resource_navigation_modal_text')}
       </Paragraph>
