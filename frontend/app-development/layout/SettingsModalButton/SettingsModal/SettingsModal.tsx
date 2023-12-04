@@ -1,4 +1,4 @@
-import React, { ReactNode, forwardRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import classes from './SettingsModal.module.css';
 import { Heading } from '@digdir/design-system-react';
 import {
@@ -22,6 +22,7 @@ import { AccessControlTab } from './components/Tabs/AccessControlTab';
 import { SetupTab } from './components/Tabs/SetupTab';
 
 export type SettingsModalProps = {
+  onClose: () => void;
   org: string;
   app: string;
 };
@@ -30,15 +31,14 @@ export type SettingsModalProps = {
  * @component
  *    Displays the settings modal.
  *
- * @property {boolean}[isOpen] - Flag for if the modal is open
- * @property {function}[onClose] - Function to be executed on close
+ * @property {function}[onClose] - Function to execute on close
  * @property {string}[org] - The org
  * @property {string}[app] - The app
  *
- * @returns {ReactNode} - The rendered component
+ * @returns {JSX.Element} - The rendered component
  */
 export const SettingsModal = forwardRef<HTMLDialogElement, SettingsModalProps>(
-  ({ org, app }: SettingsModalProps, ref): ReactNode => {
+  ({ onClose, org, app }, ref): JSX.Element => {
     const { t } = useTranslation();
 
     const [currentTab, setCurrentTab] = useState<SettingsModalTab>('about');
@@ -52,9 +52,6 @@ export const SettingsModal = forwardRef<HTMLDialogElement, SettingsModalProps>(
     const localChangesTabId: SettingsModalTab = 'localChanges';
     const accessControlTabId: SettingsModalTab = 'accessControl';
 
-    /**
-     * The tabs to display in the navigation bar
-     */
     const leftNavigationTabs: LeftNavigationTab[] = [
       createNavigationTab(
         <InformationSquareIcon className={classes.icon} />,
@@ -88,18 +85,10 @@ export const SettingsModal = forwardRef<HTMLDialogElement, SettingsModalProps>(
       ),
     ];
 
-    /**
-     * Changes the active tab
-     * @param tabId
-     */
     const changeTabTo = (tabId: SettingsModalTab) => {
       setCurrentTab(tabId);
     };
 
-    /**
-     * Displays the currently selected tab and its content
-     * @returns
-     */
     const displayTabs = () => {
       switch (currentTab) {
         case 'about': {
@@ -123,6 +112,7 @@ export const SettingsModal = forwardRef<HTMLDialogElement, SettingsModalProps>(
     return (
       <StudioModal
         ref={ref}
+        onClose={onClose}
         header={
           <div className={classes.headingWrapper}>
             <CogIcon className={classes.icon} />

@@ -11,7 +11,7 @@ export type SettingsModalButtonProps = {
 
 /**
  * @component
- *    Displays a button to open the Settings modal
+ *    Displays a button to open the Settings modal and the Settings modal
  *
  * @property {string}[org] - The org
  * @property {string}[app] - The app
@@ -34,7 +34,7 @@ export const SettingsModalButton = ({ org, app }: SettingsModalButtonProps): Rea
       >
         {t('settings_modal.heading')}
       </Button>
-      <SettingsModal ref={modalRef} org={org} app={app} />
+      <SettingsModal ref={modalRef} onClose={() => modalRef.current?.close()} org={org} app={app} />
     </>
   );
 };
