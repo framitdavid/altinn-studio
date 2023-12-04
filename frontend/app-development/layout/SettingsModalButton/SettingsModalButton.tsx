@@ -1,17 +1,11 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import { Button } from '@digdir/design-system-react';
 import { CogIcon } from '@navikt/aksel-icons';
 import { useTranslation } from 'react-i18next';
 import { SettingsModal } from './SettingsModal';
 
 export type SettingsModalButtonProps = {
-  /**
-   * The org
-   */
   org: string;
-  /**
-   * The app
-   */
   app: string;
 };
 
@@ -26,7 +20,6 @@ export type SettingsModalButtonProps = {
  */
 export const SettingsModalButton = ({ org, app }: SettingsModalButtonProps): ReactNode => {
   const { t } = useTranslation();
-  // const [isOpen, setIsOpen] = useState(false);
 
   const modalRef = useRef<HTMLDialogElement>(null);
 
@@ -41,12 +34,7 @@ export const SettingsModalButton = ({ org, app }: SettingsModalButtonProps): Rea
       >
         {t('settings_modal.heading')}
       </Button>
-      {
-        // Done to prevent API calls to be executed before the modal is open
-        // isOpen && (
-        <SettingsModal ref={modalRef} org={org} app={app} /> // isOpen={isOpen} onClose={() => setIsOpen(false)} org={org} app={app} />
-        //)
-      }
+      <SettingsModal ref={modalRef} org={org} app={app} />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import classes from './DeleteModal.module.css';
 import { useTranslation } from 'react-i18next';
 import { StudioModal } from '@studio/components';
@@ -31,6 +31,7 @@ export const DeleteModal = ({
   appName,
 }: DeleteModalProps): ReactNode => {
   const { t } = useTranslation();
+  const modalRef = useRef<HTMLDialogElement>(null);
 
   const [nameToDelete, setNameToDelete] = useState('');
 
@@ -46,9 +47,8 @@ export const DeleteModal = ({
 
   return (
     <StudioModal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title={
+      ref={modalRef}
+      header={
         <div className={classes.titleWrapper}>
           <TrashIcon className={classes.modalIcon} />
           <Heading level={1} size='xsmall'>
@@ -56,32 +56,33 @@ export const DeleteModal = ({
           </Heading>
         </div>
       }
-    >
-      <div className={classes.contentWrapper}>
-        <Paragraph size='small' spacing>
-          {t('settings_modal.local_changes_tab_delete_modal_text')}
-        </Paragraph>
-        <Textfield
-          label={t('settings_modal.local_changes_tab_delete_modal_textfield_label')}
-          size='small'
-          value={nameToDelete}
-          onChange={(e) => setNameToDelete(e.target.value)}
-        />
-        <div className={classes.buttonWrapper}>
-          <Button
-            variant='secondary'
-            color='danger'
-            onClick={handleDelete}
-            disabled={appName !== nameToDelete}
+      content={
+        <div className={classes.contentWrapper}>
+          <Paragraph size='small' spacing>
+            {t('settings_modal.local_changes_tab_delete_modal_text')}
+          </Paragraph>
+          <Textfield
+            label={t('settings_modal.local_changes_tab_delete_modal_textfield_label')}
             size='small'
-          >
-            {t('settings_modal.local_changes_tab_delete_modal_delete_button')}
-          </Button>
-          <Button variant='secondary' onClick={handleClose} size='small'>
-            {t('general.cancel')}
-          </Button>
+            value={nameToDelete}
+            onChange={(e) => setNameToDelete(e.target.value)}
+          />
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant='secondary'
+              color='danger'
+              onClick={handleDelete}
+              disabled={appName !== nameToDelete}
+              size='small'
+            >
+              {t('settings_modal.local_changes_tab_delete_modal_delete_button')}
+            </Button>
+            <Button variant='secondary' onClick={handleClose} size='small'>
+              {t('general.cancel')}
+            </Button>
+          </div>
         </div>
-      </div>
-    </StudioModal>
+      }
+    />
   );
 };

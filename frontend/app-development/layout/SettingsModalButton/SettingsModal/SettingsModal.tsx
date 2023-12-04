@@ -22,8 +22,6 @@ import { AccessControlTab } from './components/Tabs/AccessControlTab';
 import { SetupTab } from './components/Tabs/SetupTab';
 
 export type SettingsModalProps = {
-  //isOpen: boolean;
-  //onClose: () => void;
   org: string;
   app: string;
 };
@@ -123,31 +121,6 @@ export const SettingsModal = forwardRef<HTMLDialogElement, SettingsModalProps>(
     };
 
     return (
-      /*
-    <StudioModal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={
-        <div className={classes.headingWrapper}>
-          <CogIcon className={classes.icon} />
-          <Heading level={1} size='medium'>
-            {t('settings_modal.heading')}
-          </Heading>
-        </div>
-      }
-    >
-      <div className={classes.modalContent}>
-        <div className={classes.leftNavWrapper}>
-          <LeftNavigationBar
-            tabs={leftNavigationTabs}
-            className={classes.leftNavigationBar}
-            selectedTab={currentTab}
-          />
-        </div>
-        {displayTabs()}
-      </div>
-    </StudioModal>
-  */
       <StudioModal
         ref={ref}
         header={
