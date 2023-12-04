@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import classes from './VerificationModal.module.css';
 import { Button, Heading, Paragraph } from '@digdir/design-system-react';
 import { useTranslation } from 'react-i18next';
@@ -36,32 +36,34 @@ export const VerificationModal = ({
   onPerformAction,
 }: VerificationModalProps): React.ReactNode => {
   const { t } = useTranslation();
+  const modalRef = useRef<HTMLDialogElement>(null);
 
   return (
     <StudioModal
-      isOpen={isOpen}
       onClose={onClose}
-      title={
+      ref={modalRef}
+      header={
         <div className={classes.headingWrapper}>
           <Heading size='xsmall' spacing level={1}>
             {t('policy_editor.verification_modal_heading')}
           </Heading>
         </div>
       }
-    >
-      <div className={classes.content}>
-        <Paragraph size='small'>{text}</Paragraph>
-        <div className={classes.buttonWrapper}>
-          <div className={classes.closeButtonWrapper}>
-            <Button onClick={onClose} variant='tertiary' size='small'>
-              {closeButtonText}
+      content={
+        <div className={classes.content}>
+          <Paragraph size='small'>{text}</Paragraph>
+          <div className={classes.buttonWrapper}>
+            <div className={classes.closeButtonWrapper}>
+              <Button onClick={onClose} variant='tertiary' size='small'>
+                {closeButtonText}
+              </Button>
+            </div>
+            <Button onClick={onPerformAction} color='danger' size='small'>
+              {actionButtonText}
             </Button>
           </div>
-          <Button onClick={onPerformAction} color='danger' size='small'>
-            {actionButtonText}
-          </Button>
         </div>
-      </div>
-    </StudioModal>
+      }
+    />
   );
 };
