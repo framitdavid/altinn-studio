@@ -41,6 +41,8 @@ export const LocalChangesTab = ({ org, app }: LocalChangesTabProps): JSX.Element
     });
   };
 
+  const handleCloseModal = () => modalRef.current?.close();
+
   return (
     <TabContent>
       <TabHeader text={t('settings_modal.local_changes_tab_heading')} />
@@ -71,7 +73,7 @@ export const LocalChangesTab = ({ org, app }: LocalChangesTabProps): JSX.Element
       </div>
       <DeleteModal
         ref={modalRef}
-        onClose={() => modalRef.current?.close()}
+        onClose={handleCloseModal}
         onDelete={handleDelete}
         appName={app}
       />
