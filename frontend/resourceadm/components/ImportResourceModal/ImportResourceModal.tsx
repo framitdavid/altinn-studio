@@ -36,7 +36,7 @@ export const ImportResourceModal = forwardRef<HTMLDialogElement, ImportResourceM
   ({ onClose }, ref): JSX.Element => {
     const { t } = useTranslation();
 
-    const { org: selectedContext } = useParams();
+    const { selectedContext } = useParams();
     const repo = `${selectedContext}-resources`;
 
     const navigate = useNavigate();

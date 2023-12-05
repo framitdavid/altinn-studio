@@ -29,7 +29,7 @@ export const NewResourceModal = forwardRef<HTMLDialogElement, NewResourceModalPr
 
     const navigate = useNavigate();
 
-    const { org: selectedContext } = useParams();
+    const { selectedContext } = useParams();
     const repo = `${selectedContext}-resources`;
 
     const [id, setId] = useState('');
