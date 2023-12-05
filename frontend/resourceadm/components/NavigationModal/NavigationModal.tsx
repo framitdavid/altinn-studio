@@ -1,11 +1,10 @@
-import React, { Ref } from 'react';
+import React, { forwardRef } from 'react';
 import classes from './NavigationModal.module.css';
 import { Button, Paragraph } from '@digdir/design-system-react';
 import { Modal } from '../Modal';
 import { useTranslation } from 'react-i18next';
 
 export type NavigationModalProps = {
-  ref: Ref<HTMLDialogElement>;
   onClose: () => void;
   onNavigate: () => void;
   title: string;
@@ -15,36 +14,34 @@ export type NavigationModalProps = {
  * @component
  *    Displays the modal telling the user that there is a merge conflict
  *
- * @property {Ref<HTMLDialogElement>}[ref] - The ref to the modal
  * @property {function}[onClose] - Function to handle close
  * @property {function}[onNavigate] - Function to be executed when navigating
  * @property {string}[title] - The title in the modal
  *
- * @returns {React.ReactNode} - The rendered component
+ * @returns {JSX.Element} - The rendered component
  */
-export const NavigationModal = ({
-  ref,
-  onClose,
-  onNavigate,
-  title,
-}: NavigationModalProps): React.ReactNode => {
-  const { t } = useTranslation();
+export const NavigationModal = forwardRef<HTMLDialogElement, NavigationModalProps>(
+  ({ onClose, onNavigate, title }, ref): JSX.Element => {
+    const { t } = useTranslation();
 
-  return (
-    <Modal ref={ref} onClose={onClose} title={title}>
-      <Paragraph size='small' className={classes.text}>
-        {t('resourceadm.resource_navigation_modal_text')}
-      </Paragraph>
-      <div className={classes.buttonWrapper}>
-        <div className={classes.closeButton}>
-          <Button onClick={onClose} color='first' variant='tertiary' size='small'>
-            {t('resourceadm.resource_navigation_modal_button_stay')}
+    return (
+      <Modal ref={ref} onClose={onClose} title={title}>
+        <Paragraph size='small' className={classes.text}>
+          {t('resourceadm.resource_navigation_modal_text')}
+        </Paragraph>
+        <div className={classes.buttonWrapper}>
+          <div className={classes.closeButton}>
+            <Button onClick={onClose} color='first' variant='tertiary' size='small'>
+              {t('resourceadm.resource_navigation_modal_button_stay')}
+            </Button>
+          </div>
+          <Button onClick={onNavigate} color='first' size='small'>
+            {t('resourceadm.resource_navigation_modal_button_move_on')}
           </Button>
         </div>
-        <Button onClick={onNavigate} color='first' size='small'>
-          {t('resourceadm.resource_navigation_modal_button_move_on')}
-        </Button>
-      </div>
-    </Modal>
-  );
-};
+      </Modal>
+    );
+  },
+);
+
+NavigationModal.displayName = 'NavigationModal';
