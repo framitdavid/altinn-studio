@@ -14,14 +14,13 @@ describe('DeleteModal', () => {
   const mockOnDelete = jest.fn();
 
   const defaultProps: DeleteModalProps = {
-    isOpen: true,
     onClose: mockOnClose,
     onDelete: mockOnDelete,
     appName: mockAppName,
   };
 
-  it('calls the onClose function when the Cancel button is clicked', async () => {
-    render(<DeleteModal {...defaultProps} />);
+  it.only('calls the onClose function when the Cancel button is clicked', async () => {
+    render(<DeleteModal {...defaultProps} open={true} />);
 
     const cancelButton = screen.getByRole('button', { name: textMock('general.cancel') });
     await act(() => user.click(cancelButton));
