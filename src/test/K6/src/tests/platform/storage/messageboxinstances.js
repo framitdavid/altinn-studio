@@ -56,7 +56,7 @@ export default function (data) {
   //Test to get active instances based of a specific app from storage: SBL and validate the response
   var queryModel = {
     language: 'nb',
-    appId: appOwner + '/' + appName,
+    appId: 'tjobing-' + appOwner + '/' + appName,
     instanceOwnerPartyIdList: [partyId],
     includeActive: 'true',
   };
