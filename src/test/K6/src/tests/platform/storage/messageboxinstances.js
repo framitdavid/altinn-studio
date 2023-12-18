@@ -60,6 +60,7 @@ export default function (data) {
     instanceOwnerPartyIdList: [partyId],
     includeActive: 'true',
   };
+  console.error('xxxyyyzzz');
   res = sbl.searchSblInstancesPost(runtimeToken, queryModel);
   success = check(res, {
     'Search instances by app id status is 200': (r) => r.status === 200,
