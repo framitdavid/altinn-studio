@@ -74,7 +74,11 @@ export function searchSblInstances(altinnStudioRuntimeCookie, filters) {
  */
 export function searchSblInstancesPost(altinnStudioRuntimeCookie, queryModel) {
   var endpoint = config.platformStorage['messageBoxInstances'] + '/search';
+  console.error('Endpoint::: ' + endpoint);
   var requestBody = JSON.stringify(queryModel);
   var params = header.buildHeaderWithRuntimeAndJsonForSbl(altinnStudioRuntimeCookie, 'platform');
-  return httpPost(endpoint, requestBody, params);
+  var x = httpPost(endpoint, requestBody, params);
+  console.error('status ' + x.status_text);
+  console.error('body ' + x.body);
+  return x;
 }
