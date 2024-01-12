@@ -48,8 +48,7 @@ export const TextRow = ({
   const { t } = useTranslation();
   const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState<boolean>();
 
-  const handleTextIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const newTextId = event.currentTarget.value;
+  const handleTextIdChange = (newTextId: string): void => {
     if (newTextId !== textId) {
       if (idExists(newTextId)) {
         setKeyError('Denne IDen finnes allerede');
@@ -122,12 +121,13 @@ export const TextRow = ({
               <FormField
                 label={t('schema_editor.textRow-textkey-label')}
                 value={textIdValue}
+                onChange={handleTextIdChange}
                 renderField={({ fieldProps }) => (
                   <Textfield
                     {...fieldProps}
                     error={keyError}
                     onBlur={handleTextIdBlur}
-                    onChange={handleTextIdChange}
+                    onChange={(e) => fieldProps.onChange(e.target.value, e)}
                     size='small'
                   />
                 )}
