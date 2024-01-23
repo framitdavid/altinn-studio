@@ -1,9 +1,10 @@
 ﻿import { BasePage } from '../helpers/BasePage';
 import { Page } from '@playwright/test';
+import { Environment } from '../helpers/StudioEnvironment';
 
 export class DashboardPage extends BasePage {
-  constructor(page: Page) {
-    super(page);
+  constructor(page: Page, environment?: Environment) {
+    super(page, environment);
   }
 
   public async loadDashboardPage(): Promise<void> {
