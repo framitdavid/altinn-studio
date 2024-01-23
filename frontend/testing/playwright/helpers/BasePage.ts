@@ -63,4 +63,9 @@ export class BasePage extends RouterRoute {
   protected getOptionByName(name: string): Locator {
     return this.page.getByRole('option', { name });
   }
+
+  // Helper function to get a linkby the text key
+  protected getLinkByTextKey(key: TextKey): Locator {
+    return this.page.getByRole('link', { name: this.textMock(key) });
+  }
 }

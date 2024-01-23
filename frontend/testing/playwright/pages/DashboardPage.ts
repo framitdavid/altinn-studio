@@ -16,14 +16,14 @@ export class DashboardPage extends BasePage {
   }
 
   public async clickOnCreateAppLink(): Promise<void> {
-    await this.page.getByRole('link', { name: this.textMock('dashboard.new_service') }).click();
+    await this.getLinkByTextKey('dashboard.new_service').click();
   }
 
-  public async checkThatAllLinksAreValid(): Promise<void> {
-    const links = this.getAllLinks();
+  public async getAllRows(): Promise<Locator[]> {
+    return await this.page.getByRole('row').all();
   }
 
-  private async getAllLinks(): Promise<Locator[]> {
-    return await this.page.locator('role=link').all();
+  public async clickOnStarFirstApplication(): Promise<void> {
+    await this.getButtonByTextKey('dashboard.star').click();
   }
 }
