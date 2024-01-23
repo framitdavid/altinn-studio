@@ -36,4 +36,6 @@ const setupAndVerifyDashboardPage = async (
 
 test('that the page does not have any broken links', async ({ page, testAppName }) => {
   const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+
+  await dashboardPage.checkThatAllLinksAreValid();
 });
