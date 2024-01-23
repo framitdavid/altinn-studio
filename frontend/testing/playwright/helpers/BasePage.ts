@@ -12,6 +12,8 @@ const localeTextMap: Record<Locale, typeof nbTexts | typeof enTexts> = {
   en: enTexts,
 };
 
+type TextMockParams = Record<string, string>;
+
 export class BasePage extends RouterRoute {
   public readonly page: Page;
 
@@ -20,8 +22,17 @@ export class BasePage extends RouterRoute {
     this.page = page;
   }
 
-  public textMock(key: TextKey, locale: Locale = 'nb'): string {
-    return localeTextMap[locale][key] || key;
+  public textMock(key: TextKey, params?: TextMockParams, locale: Locale = 'nb'): string {
+    let text = localeTextMap[locale][key] || key;
+
+    if (params) {
+      Object.keys(params).forEach((paramKey) => {
+        const paramValue = params[paramKey];
+        text = text.replace(`{{${paramKey}}}`, paramValue);
+      });
+    }
+
+    return text;
   }
 
   // Helper function to get a button by the text key
@@ -30,8 +41,8 @@ export class BasePage extends RouterRoute {
   }
 
   // Helper function to get a menu item by the text key
-  protected getMenuItemByTextKey(key: TextKey): Locator {
-    return this.page.getByRole('menuitem', { name: this.textMock(key) });
+  protected getMenuItemByTextKey(key: TextKey, params?: TextMockParams): Locator {
+    return this.page.getByRole('menuitem', { name: this.textMock(key, params) });
   }
 
   // Helper function to get a tree item property by the name

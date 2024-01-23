@@ -136,7 +136,9 @@ export const RepoList = ({
             key={repo.id}
             id={`fav-repo-${repo.id}`}
             onClick={handleToggleFav}
-            label={repo.hasStarred ? t('dashboard.unstar') : t('dashboard.star')}
+            label={t(repo.hasStarred ? 'dashboard.unstar' : 'dashboard.star', {
+              appName: repo.name,
+            })}
             icon={
               repo.hasStarred ? (
                 <StarFillIcon name='star-fill-icon' className={classes.favoriteIcon} />

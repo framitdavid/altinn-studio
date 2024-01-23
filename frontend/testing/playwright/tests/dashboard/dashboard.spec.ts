@@ -32,5 +32,9 @@ test('It is possible to view apps, and add and remove from favourites', async ({
 }) => {
   const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
 
-  await dashboardPage.clickOnStarFirstApplication();
+  await dashboardPage.checkThatThereIsNoFavouriteAppInList(testAppName);
+  await dashboardPage.clickOnFavouriteApplication(testAppName);
+  await dashboardPage.checkThatThereIsFavouriteAppInList(testAppName);
+  await dashboardPage.clickOnUnFavouriteApplicatin(testAppName);
+  await dashboardPage.checkThatThereIsNoFavouriteAppInList(testAppName);
 });
