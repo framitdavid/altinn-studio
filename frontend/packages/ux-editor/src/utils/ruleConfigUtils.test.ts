@@ -65,10 +65,11 @@ describe('ruleConfigUtils', () => {
   });
 
   test('deleteConditionalRenderingConnection', () => {
+    // eslint-disable-next-line testing-library/render-result-naming-convention
     const newRuleConfig = deleteConditionalRenderingConnection(
       ruleConfig,
       conditionalRenderingConnection1Id,
-    ); // eslint-disable-line testing-library/render-result-naming-convention
+    );
     expect(newRuleConfig.data.ruleConnection).toEqual(ruleConnection);
     expect(
       newRuleConfig.data.conditionalRendering[conditionalRenderingConnection1Id],
