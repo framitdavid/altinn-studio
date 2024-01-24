@@ -45,6 +45,11 @@ export class BasePage extends RouterRoute {
     return this.page.getByRole('menuitem', { name: this.textMock(key, params) });
   }
 
+  // Helper function to get a menu item by the name
+  protected getMenuItemByName(name: string): Locator {
+    return this.page.getByRole('menuitem', { name });
+  }
+
   // Helper function to get a tree item property by the name
   protected getTreeItemPropertyByName(name: string): Locator {
     return this.page.getByRole('treeitem', { name });
@@ -75,8 +80,17 @@ export class BasePage extends RouterRoute {
     return this.page.getByRole('option', { name });
   }
 
-  // Helper function to get a linkby the text key
+  // Helper function to get a link by the text key
   protected getLinkByTextKey(key: TextKey): Locator {
     return this.page.getByRole('link', { name: this.textMock(key) });
+  }
+
+  // Helper function to get a heading by the text key and level
+  protected getHeadingByTextKeyAndLevel(
+    key: TextKey,
+    level: number,
+    textKeyParams?: TextMockParams,
+  ): Locator {
+    return this.page.getByRole('heading', { name: this.textMock(key, textKeyParams), level });
   }
 }

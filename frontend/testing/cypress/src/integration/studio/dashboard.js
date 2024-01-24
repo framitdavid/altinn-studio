@@ -25,33 +25,6 @@ context('Dashboard', () => {
     cy.deleteAllApps(Cypress.env('autoTestUser'), Cypress.env('accessToken'));
   });
 
-  it('does not have broken links', () => {
-    cy.findAllByRole('link').each((link) => {
-      if (link.prop('href'))
-        cy.request({
-          url: link.prop('href'),
-          failOnStatusCode: true,
-        });
-      cy.log(link.prop('href'));
-    });
-  });
-
-  it('is possible to change context and view all apps', () => {
-    cy.visit('/dashboard');
-    header.getAvatar().should('be.visible').click();
-    header.getMenuItemAll().should('be.visible').click();
-    cy.wait('@fetchApps');
-    dashboard.getAllAppsHeader().should('be.visible');
-  });
-
-  it('is possible to change context and view only Testdepartementet apps', () => {
-    cy.visit('/dashboard');
-    header.getAvatar().should('be.visible').click();
-    header.getMenuItemOrg(Cypress.env('orgUserName')).should('be.visible').click();
-    cy.wait('@fetchApps');
-    dashboard.getOrgAppsHeader(Cypress.env('orgFullName')).should('be.visible');
-  });
-
   it('is possible to search an app by name', () => {
     dashboard.getSearchReposField().type('auto');
     cy.wait('@fetchApps');

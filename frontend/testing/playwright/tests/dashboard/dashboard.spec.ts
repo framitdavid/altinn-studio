@@ -38,3 +38,22 @@ test('It is possible to view apps, and add and remove from favourites', async ({
   await dashboardPage.clickOnUnFavouriteApplicatin(testAppName);
   await dashboardPage.checkThatThereIsNoFavouriteAppInList(testAppName);
 });
+
+test('It is possible to change context and view all apps', async ({ page, testAppName }) => {
+  const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+
+  await dashboardPage.clickOnHeaderAvatar();
+  await dashboardPage.clickOnAllApplications();
+  await dashboardPage.checkThatAllApplicationsHeaderIsVisible();
+});
+
+test('It is possible to change context and view only Testdepartementet apps', async ({
+  page,
+  testAppName,
+}) => {
+  const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+
+  await dashboardPage.clickOnHeaderAvatar();
+  await dashboardPage.clickOnOrgApplications();
+  await dashboardPage.checkThatAllOrgApplicationsHeaderIsVisible();
+});
