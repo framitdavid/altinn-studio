@@ -1,5 +1,5 @@
 ﻿import { BasePage } from '../helpers/BasePage';
-import { Locator, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { Environment } from '../helpers/StudioEnvironment';
 
 export class DashboardPage extends BasePage {
@@ -50,12 +50,12 @@ export class DashboardPage extends BasePage {
   }
 
   public async clickOnOrgApplications(): Promise<void> {
-    await this.getMenuItemByName(this.getOrgName()).click();
+    await this.getMenuItemByName(this.org).click();
   }
 
   public async checkThatAllOrgApplicationsHeaderIsVisible(): Promise<void> {
     await this.getHeadingByTextKeyAndLevel('dashboard.org_apps', 2, {
-      orgName: this.getOrgName(),
+      orgName: this.org,
     }).isVisible();
   }
 
@@ -69,5 +69,21 @@ export class DashboardPage extends BasePage {
 
   public async typeInSearchField(word: string): Promise<void> {
     await this.page.getByLabel(this.textMock('dashboard.search')).fill(word);
+  }
+
+  public async clickOnTestAppGiteaButton(appName: string): Promise<void> {
+    await this.getMenuItemByTextKey('dashboard.repository_in_list', { appName }).click();
+  }
+
+  public async verifyGiteaPage(appName: string): Promise<void> {
+    await this.page.waitForURL(this.getGiteaRoute(appName));
+  }
+
+  public async clickOnTestAppEditButton(appName: string): Promise<void> {
+    await this.getMenuItemByTextKey('dashboard.edit_app', { appName }).click();
+  }
+
+  public async verifyEditorOverviewPage(): Promise<void> {
+    await this.page.waitForURL(this.getRoute('editorOverview'));
   }
 }

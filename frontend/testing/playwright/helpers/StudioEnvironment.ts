@@ -16,8 +16,4 @@ export class StudioEnvironment {
   public updateAppNameEnv(appName: string): void {
     this.app = appName;
   }
-
-  public getOrgName(): string {
-    return this.org;
-  }
 }

@@ -65,11 +65,29 @@ test('It is possible to change context and view only Testdepartementet apps', as
 
 test('It is possible to search an app by name', async ({ page, testAppName }) => {
   const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+  const testAppName2 = `${testAppName}2`;
 
   await dashboardPage.checkThatAppIsVisible(testAppName);
-  await dashboardPage.checkThatAppIsVisible(`${testAppName}2`);
+  await dashboardPage.checkThatAppIsVisible(testAppName2);
 
   await dashboardPage.typeInSearchField('2');
   await dashboardPage.checkThatAppIsHidden(testAppName);
-  await dashboardPage.checkThatAppIsVisible(`${testAppName}2`);
+  await dashboardPage.checkThatAppIsVisible(testAppName2);
+});
+
+test('It is possible to open Gitea repository of an app from the dashboard', async ({
+  page,
+  testAppName,
+}) => {
+  const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+
+  await dashboardPage.clickOnTestAppGiteaButton(testAppName);
+  await dashboardPage.verifyGiteaPage(testAppName);
+});
+
+test('It is possible to open an application from the dashboard', async ({ page, testAppName }) => {
+  const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+
+  await dashboardPage.clickOnTestAppEditButton(testAppName);
+  await dashboardPage.verifyEditorOverviewPage();
 });
