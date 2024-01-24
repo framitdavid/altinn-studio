@@ -58,4 +58,16 @@ export class DashboardPage extends BasePage {
       orgName: this.getOrgName(),
     }).isVisible();
   }
+
+  public async checkThatAppIsVisible(appName: string): Promise<void> {
+    await this.page.getByTitle(appName, { exact: true }).isVisible();
+  }
+
+  public async checkThatAppIsHidden(appName: string): Promise<void> {
+    await this.page.getByTitle(appName, { exact: true }).isHidden();
+  }
+
+  public async typeInSearchField(word: string): Promise<void> {
+    await this.page.getByLabel(this.textMock('dashboard.search')).fill(word);
+  }
 }

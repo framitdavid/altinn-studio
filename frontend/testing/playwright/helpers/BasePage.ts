@@ -42,7 +42,7 @@ export class BasePage extends RouterRoute {
 
   // Helper function to get a menu item by the text key
   protected getMenuItemByTextKey(key: TextKey, params?: TextMockParams): Locator {
-    return this.page.getByRole('menuitem', { name: this.textMock(key, params) });
+    return this.page.getByRole('menuitem', { name: this.textMock(key, params), exact: true });
   }
 
   // Helper function to get a menu item by the name

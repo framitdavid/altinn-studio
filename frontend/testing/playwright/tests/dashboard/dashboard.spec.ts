@@ -11,7 +11,12 @@ test.describe.configure({ mode: 'serial' });
 // Before the tests starts, we need to create the dashboard app
 test.beforeAll(async ({ testAppName, request, storageState }) => {
   // Create a new app
-  const designerApi1 = new DesignerApi({ app: testAppName });
+  const designerApi = new DesignerApi({ app: testAppName });
+  const response = await designerApi.createApp(request, storageState as StorageState);
+  expect(response.ok()).toBeTruthy();
+
+  // Create another new app
+  const designerApi1 = new DesignerApi({ app: `${testAppName}2` });
   const response1 = await designerApi1.createApp(request, storageState as StorageState);
   expect(response1.ok()).toBeTruthy();
 });
@@ -56,4 +61,15 @@ test('It is possible to change context and view only Testdepartementet apps', as
   await dashboardPage.clickOnHeaderAvatar();
   await dashboardPage.clickOnOrgApplications();
   await dashboardPage.checkThatAllOrgApplicationsHeaderIsVisible();
+});
+
+test('It is possible to search an app by name', async ({ page, testAppName }) => {
+  const dashboardPage = await setupAndVerifyDashboardPage(page, testAppName);
+
+  await dashboardPage.checkThatAppIsVisible(testAppName);
+  await dashboardPage.checkThatAppIsVisible(`${testAppName}2`);
+
+  await dashboardPage.typeInSearchField('2');
+  await dashboardPage.checkThatAppIsHidden(testAppName);
+  await dashboardPage.checkThatAppIsVisible(`${testAppName}2`);
 });

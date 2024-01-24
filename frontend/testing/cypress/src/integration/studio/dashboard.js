@@ -25,21 +25,6 @@ context('Dashboard', () => {
     cy.deleteAllApps(Cypress.env('autoTestUser'), Cypress.env('accessToken'));
   });
 
-  it('is possible to search an app by name', () => {
-    dashboard.getSearchReposField().type('auto');
-    cy.wait('@fetchApps');
-    dashboard.getSearchResults().then((searchResults) => {
-      cy.get(searchResults).should('have.length.gte', 1);
-      cy.get(searchResults)
-        .first()
-        .then((app) => {
-          common
-            .getCellByColumnHeader(searchResults, app, texts['dashboard.name'])
-            .should('contain.text', 'auto');
-        });
-    });
-  });
-
   it('is possible to sort apps by last changed date', () => {
     cy.visit('/dashboard');
     // First click will put oldest application first
