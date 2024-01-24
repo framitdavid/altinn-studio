@@ -62,7 +62,9 @@ describe('ReceiptContent', () => {
   it('displays button when receiptName is undefined', async () => {
     await render({ receiptName: undefined });
 
-    const addButton = screen.getByRole('button', { name: textMock('receipt.create') });
+    const addButton = screen.getByRole('button', {
+      name: textMock('ux_editor.pages_create_receipt'),
+    });
     expect(addButton).toBeInTheDocument();
 
     const receiptAccordion = screen.queryByRole('button', { name: mockReceiptName });
@@ -72,7 +74,9 @@ describe('ReceiptContent', () => {
   it('displays accordion when receiptName is present', async () => {
     await render();
 
-    const addButton = screen.queryByRole('button', { name: textMock('receipt.create') });
+    const addButton = screen.queryByRole('button', {
+      name: textMock('ux_editor.pages_create_receipt'),
+    });
     expect(addButton).not.toBeInTheDocument();
 
     const receiptAccordion = screen.getByRole('button', { name: mockReceiptName });
@@ -103,7 +107,9 @@ describe('ReceiptContent', () => {
     const user = userEvent.setup();
     await render({ receiptName: undefined });
 
-    const addButton = screen.getByRole('button', { name: textMock('receipt.create') });
+    const addButton = screen.getByRole('button', {
+      name: textMock('ux_editor.pages_create_receipt'),
+    });
     await act(() => user.click(addButton));
 
     expect(mockOnClickAddPage).toHaveBeenCalled();

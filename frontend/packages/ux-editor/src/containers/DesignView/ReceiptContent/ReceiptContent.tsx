@@ -79,7 +79,7 @@ export const ReceiptContent = ({
   return (
     <div className={classes.button}>
       <StudioButton variant='tertiary' onClick={onClickAddPage} size='small'>
-        {t('receipt.create')}
+        {t('ux_editor.pages_create_receipt')}
       </StudioButton>
     </div>
   );

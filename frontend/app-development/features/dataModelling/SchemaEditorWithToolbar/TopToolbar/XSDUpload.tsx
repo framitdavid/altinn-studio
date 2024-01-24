@@ -39,7 +39,7 @@ export const XSDUpload = ({ disabled, submitButtonRenderer }: IXSDUploadProps) =
       })
       .catch((error) => {
         if (error) {
-          setErrorText(t('form_filler.file_uploader_validation_error_upload'));
+          setErrorText(t('app_data_modelling.file_uploader_validation_error_upload'));
         }
       })
       .finally(async () => {
