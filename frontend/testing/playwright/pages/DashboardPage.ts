@@ -1,6 +1,6 @@
 ﻿import { BasePage } from '../helpers/BasePage';
-import { Page } from '@playwright/test';
-import { Environment } from '../helpers/StudioEnvironment';
+import type { Environment } from '../helpers/StudioEnvironment';
+import type { Page } from '@playwright/test';
 
 export class DashboardPage extends BasePage {
   constructor(page: Page, environment?: Environment) {
