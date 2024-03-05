@@ -15,21 +15,21 @@ public class EidController {
 //    this.eventLogger = eventLogger;
 //  }
 
-  @PostMapping("/eid-event-log")
-  public void log(@RequestBody EidLogRequest request) {
+    @PostMapping("/eid-event-log")
+    public void log(@RequestBody EidLogRequest request) {
 
-    ActivityRecord record = ActivityRecord.builder()
-      .eventName(request.getEventName())
-      .eventSubjectPid(request.getEventSubjectPid())
-      .correlationId(request.getCorrelationId())
-      .serviceProviderId(request.getServiceProviderId())
-      .serviceProviderOrgno(request.getServiceProviderOrgno())
-      .serviceProviderName(request.getServiceProviderName())
-      .serviceOwnerId(request.getServiceOwnerId())
-      .serviceOwnerOrgno(request.getServiceOwnerOrgno())
-      .serviceOwnerName(request.getServiceOwnerName())
-      .build();
+        ActivityRecord record = ActivityRecord.builder()
+                .eventName(request.getEventName())
+                .eventSubjectPid(request.getEventSubjectPid())
+                .correlationId(request.getCorrelationId())
+                .serviceProviderId(request.getServiceProviderId())
+                .serviceProviderOrgno(request.getServiceProviderOrgno())
+                .serviceProviderName(request.getServiceProviderName())
+                .serviceOwnerId(request.getServiceOwnerId())
+                .serviceOwnerOrgno(request.getServiceOwnerOrgno())
+                .serviceOwnerName(request.getServiceOwnerName())
+                .build();
 
 //    eventLogger.log(record);
-  }
+    }
 }
