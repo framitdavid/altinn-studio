@@ -43,7 +43,7 @@
 
     <dependency>
       <groupId>no.digdir.logging</groupId>
-      <artifactId>log-event</artifactId>
+      <artifactId>log-event-spring-boot-starter</artifactId>
       <version>${log-event.version}</version>
     </dependency>
 	</dependencies>
